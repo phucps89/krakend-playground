@@ -7,4 +7,4 @@ dist/krakend.json
 dist/krakend
 src/.env
 prometheus_data
-krakend-module
+krakend-module/*
