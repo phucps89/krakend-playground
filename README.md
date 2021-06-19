@@ -4,7 +4,7 @@ Ultra-High performance API Gateway with middlewares
 
 **KrakenD Community Edition** (or *KrakenD-CE*) is the binary distribution of [KrakenD](http://www.krakend.io).
 
-This application will run at port `8080` by default.
+This application will run at port `7890` by default.
 
 For more details, pls read at [KrakenD's Docs](https://www.krakend.io/docs/overview/introduction/)
 
