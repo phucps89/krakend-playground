@@ -1,0 +1,39 @@
+{
+    "version": 2,
+    "name": "API Gateway DEV Cluster",
+    "timeout": "30s",
+    "port": "{{.global.port}}",
+    "extra_config": {{marshal .global.extra_config}},
+    "endpoints": [
+        {{range .demo.private_api}}
+        { 
+            "endpoint": "{{.endpoint}}",
+            "method": "{{.method}}",
+            "headers_to_pass": {{marshal .headers_to_pass}},
+            "querystring_params": {{marshal .querystring_params}},
+            {{if .output_encoding}}"output_encoding": "{{.output_encoding}}",{{end}}
+            "extra_config": {
+                {{template "demo_auth.tmpl" "dev"}},
+                {{include "rate_limiting.tmpl"}}
+                {{with .extra_proxy}},"github.com/devopsfaith/krakend/proxy": {{marshal .}}{{end}}
+            },
+            "backend": {{marshal .backend}}
+        },
+        {{ end }}
+        {{range .demo.public_api}}
+        { 
+            "endpoint": "{{.endpoint}}",
+            "method": "{{.method}}",
+            "headers_to_pass": {{marshal .headers_to_pass}},
+            "querystring_params": {{marshal .querystring_params}},
+            {{if .output_encoding}}"output_encoding": "{{.output_encoding}}",{{end}}
+            "extra_config": {
+                {{include "rate_limiting.tmpl"}}
+                {{with .extra_proxy}},"github.com/devopsfaith/krakend/proxy": {{marshal .}}{{end}}
+            },
+            "backend": {{marshal .backend}}
+        },
+        {{ end }}
+        {{marshal .global.healthcheck}}
+    ]
+}
