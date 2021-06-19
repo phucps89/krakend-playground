@@ -1,0 +1,12 @@
+"github.com/devopsfaith/krakend-jose/validator": {
+  "propagate-claims": [
+    ["sub", "x-user"]
+  ],
+  "alg": "RS256",
+  "roles_key": "scopes",
+  "roles": [],
+  "cache": true,
+  "cache_duration": 3600,
+  "audience": ["{{env "DEMO_AUTH_AUDIENCE"}}"],
+  "jwk-url": "{{env "DEMO_JWK_URL"}}"
+}

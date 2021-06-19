@@ -1,0 +1,28 @@
+{
+  "private_api": [
+  ],
+  "public_api": [
+    {
+      "endpoint": "/demo",
+      "method": "GET",
+      "headers_to_pass": ["x-user"],
+      "querystring_params": ["*"],
+      "backend": [
+        {
+          "host": ["{{env `DEMO_BACKEND`}}"],
+          "method": "GET",
+          "url_pattern": "/demo/test",
+          "is_collection": true,
+          "mapping": {
+            "collection": "data"
+          },
+          "extra_config": {
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "test"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

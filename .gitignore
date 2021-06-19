@@ -1,0 +1,10 @@
+out.json
+.env
+krakend.json
+dist/settings/*
+dist/partials/*
+dist/templates/*
+dist/krakend.json
+dist/krakend
+src/.env
+prometheus_data

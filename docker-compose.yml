@@ -1,0 +1,39 @@
+version: "3"
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+  krakend_designer:
+    image: devopsfaith/krakendesigner:latest
+    ports:
+      - 8787:80
+  krakend_ce:
+    build:
+      context: ./krakend_ce
+      args:
+        - KRAKEND_VERSION=${KRAKEND_VERSION}
+    volumes:
+      - ./dist:/etc/krakend
+    working_dir: /etc/krakend/
+    ports:
+      - "1234:1234"
+      - "${GATEWAY_PORT_MAPPING}:${GATEWAY_PORT}"
+      - "8090:8090"
+    extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+    user: "${PUID}:${PGID}"
+  prometheus:
+    image: prom/prometheus:v2.1.0
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - ./prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - ${PROMETHEUS_PORT}:9090
+    user: "${PUID}:${PGID}"

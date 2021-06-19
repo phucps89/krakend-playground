@@ -1,0 +1,3 @@
+[submodule "krakend-module"]
+	path = krakend-module
+	url = https://github.com/devopsfaith/krakend-ce

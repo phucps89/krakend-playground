@@ -1,0 +1,5 @@
+FC_ENABLE=1 FC_OUT="$DISTDIR/krakend.json" \
+FC_SETTINGS="$DISTDIR/settings" \
+FC_PARTIALS="$DISTDIR/partials" \
+FC_TEMPLATES="$DISTDIR/templates" \
+$DISTDIR/krakend check -c "$SRCDIR/../krakend.json"

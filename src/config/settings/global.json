@@ -1,0 +1,54 @@
+{
+  "port": "{{env `GATEWAY_PORT`}}",
+  "extra_config": {
+    "github_com/devopsfaith/krakend-gologging": {
+      "level": "WARNING",
+      "prefix": "[KRAKEND]",
+      "stdout": true,
+      "syslog": false,
+      "format": "logstash"
+    },
+    "github_com/devopsfaith/krakend-logstash": {
+      "enabled": true
+    },
+    "github_com/devopsfaith/krakend-metrics": {
+      "collection_time": "60s",
+      "proxy_disabled": false,
+      "router_disabled": false,
+      "backend_disabled": false,
+      "endpoint_disabled": false,
+      "listen_address": ":8084"
+    },
+    "github_com/devopsfaith/krakend-cors": {
+      "allow_origins": ["*"],
+      "allow_methods": ["POST", "HEAD", "GET", "PUT", "PATCH", "DELETE"],
+      "allow_headers": ["Origin", "Authorization", "Content-Type"],
+      "expose_headers": ["Content-Length", "Content-Type"],
+      "max_age": "12h"
+    },
+    "github.com/devopsfaith/krakend-circuitbreaker/gobreaker": {
+      "interval": 60,
+      "timeout": 10,
+      "maxErrors": 1
+    },
+    "github_com/devopsfaith/krakend-opencensus": {
+      "exporters": {
+        "prometheus": {
+          "port": 9091,
+          "namespace": "krakend"
+        },
+        "jaeger": {},
+        "zipkin": {}
+      }
+    }
+  },
+  "healthcheck": {
+    "endpoint": "/health",
+    "backend": [
+      {
+        "url_pattern": "/__health",
+        "host": ["http://localhost:{{env `GATEWAY_PORT`}}"]
+      }
+    ]
+  }
+}
